@@ -1,0 +1,61 @@
+To do
+- Base game mechanics
+  - Player throw hammer up
+    - players will throw the hammer in the air using a QTE slide bar to determine throw strength
+    - momentum calculated when the hammer falls will be used to determine the power of the hit (higher throw = more momentum)
+  - player catch hammer
+    - another QTE allowing the player to catch the hammer
+      - cleaner the catch, the more momentum concerved
+      - completely missing the catch will result in the player dropping the hammer and losing their turn
+  - Striking the nail
+    - hitting the nail will cause it to sink
+      - the closer to the center of the nail head, the better the hit
+      - the closer to the edge of the nail head, the more likely to bend the nail
+        - bending makes the nail sink less and more likely to bend in the future
+      - nails have a chance of sparking on every hit (with a high enough strength)
+  - when someone strikes your nail (optional setting)
+    - a "nausea" effect gets applied to the player
+      - or something else to simulate taking a drink
+      - should start small and stack after each hit
+      - after nail sinks fully, the player should "pass out"
+        - maybe turn them into ghosts so they can do other activities while the game continues
+  - Player Colors
+    - Players get a color when loading into the game (surrounding their name), the nail's head will be painted the same color
+      - Can have an anonymous mode that hides all nail colors except your own (so you don't accidentally hit yourself)
+- Stump Rouge-like
+  - upgrades can be collected that can help/hurt players
+    - effects one player
+      - Stronger Arm
+        - Players can throw the hammer higher and swing the hammer harder
+      - Thor Strike
+        - Increased chance of sparks on hits
+      - Double Jump
+        - player can jump an additional time 
+      - Bigger Jump
+        - Player can jump higher per every jump
+      - Growing nail/anti magnet
+        - nail comes back out of the log slightly after every round
+      - Double hit/swing/tap
+        - Player gets an additional swing every round
+          - additional swings have reduced power
+          - player doesn't need to throw the hammer again
+      - Increased Stamina
+        - Unlocks after grabbing first additional swing
+        - reduces the drop off from each additional swing
+    - effects all players
+      - High Gravity
+        - decreases power from throwing hammer but increases power from hammer swing
+      - Low Gravity
+        - decreases power from hammer swing but increases the power from hammer throw
+      - Termites
+        - weakens the log allowing for all nails to sink more on each hit
+      - Resin
+        - strengthens the log allowing for all nails to sink less on each hit
+      - Larger Hammer
+        - larger hammer, larger surface area to hit (multiple nails can be hit if close enough to one another
+      - Heavier Hammer
+        - Hammer is heavier, harder to throw 
+      - Smaller Hammer
+        - more precise hit means more power in what you hit
+      - Lighter Hammer
+        - Hammer is lighter, easier to throw
