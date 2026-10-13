@@ -13,6 +13,7 @@ To do
       - the closer to the edge of the nail head, the more likely to bend the nail
         - bending makes the nail sink less and more likely to bend in the future
       - nails have a chance of sparking on every hit (with a high enough strength)
+        - SPARKING NEEDS MORE OF AN INCENTIVE!! If cool spark does nothing than it becomes less cool
   - when someone strikes your nail (optional setting)
     - a "nausea" effect gets applied to the player
       - or something else to simulate taking a drink
@@ -59,3 +60,30 @@ To do
         - more precise hit means more power in what you hit
       - Lighter Hammer
         - Hammer is lighter, easier to throw
+      - Fresh Stump
+        - removes all add-ons to the stump but keeps nails at current progress
+      - Fresh Hammer
+        - Hammer has all add-ons removed
+    - Temporary effects
+      - Jetpack
+        - allows the player to rocket up or down until they run out of gas
+      - lightning rod
+        - the nail is much more likely to spark when hit for a limited time
+      - slow time
+        - the player who uses it has all actions slowed down drastically which can allow for more easier time throwing, catching, and hitting with the hammer
+      - Firecracker
+        - place on the head of a nail to make the next hit more EXPLOSIVE (careful you might lose a finger)
+      - weighted bracelet
+        - throwing the hammer and hitting the nail becomes harder for a few turns but once removed your strength shoots up!
+      - Per pressure shot
+        - You choose one other player to take a spicy beverage with you causing both of you to be a bit woozy for the next few turns
+      - Weak Sheild
+        - You are protected from the next negative effect coming your way
+        - also stops any positive effect that comes with it
+      - Strong Sheild
+        - Does 1 of 2 things
+          - Protects from next negative effect while keeping the positive and being destroyed 
+          - Protects from 1 negative effect (that has no positive tied to it) and gets turned into a weak shield after (thus giving you 2 protections)
+      - Cement Boots
+        - Jumping becomes really difficult for the next few turns
+      - 
