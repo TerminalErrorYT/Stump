@@ -13,7 +13,8 @@ To do
       - the closer to the edge of the nail head, the more likely to bend the nail
         - bending makes the nail sink less and more likely to bend in the future
       - nails have a chance of sparking on every hit (with a high enough strength)
-        - SPARKING NEEDS MORE OF AN INCENTIVE!! If cool spark does nothing than it becomes less cool
+        - Sparks can be what triggers an upgrade
+        - the person who caused the spark gets first dibs on the upgrade from the ones selected
   - when someone strikes your nail (optional setting)
     - a "nausea" effect gets applied to the player
       - or something else to simulate taking a drink
@@ -23,9 +24,50 @@ To do
   - Player Colors
     - Players get a color when loading into the game (surrounding their name), the nail's head will be painted the same color
       - Can have an anonymous mode that hides all nail colors except your own (so you don't accidentally hit yourself)
+  - Use the Ready Up screen as the way the players choose where to put the nail
+    - While sitting in the lobby, you can place your nail on the top of the log to signify when you are ready and when the game loads, your nail will be in the same location
+    - Ready and unready animation will be the nail getting hammered in and getting pried out
+  - loading indicator should be a flipping hammer
+  - bark of the stump should fly off with hard hits
+    - small chucks for big hits, large chucks for bigger hits, the whole trunk bark for ridiculous hits
+  - upgrades should be color coordinated for if they are temporary, one player effect, or multi player effect
+  - should be other hammer cosmetics that can also have a built in secondary effect
+    - example: Thor's hammer having a built in Thor ability
+- Cosmetics
+  - Hammers
+    - normal
+    - Thor's Hammer
+      - God of War
+      - MCU
+    - Sludgehammer
+  - Nails
+    - iron
+    - copper
+    - bronze
+    - silver
+    - gold
+    - platnium
+    - railroad spike
+    - iceicle
+  - Maps
+    - backyard BBQ
+    - winter
+    - halloween
+    - fall
+    - christmas
+    - thunderstorm
+    - pirate ship
+      - make the center mass the stump
+    - knigtes of the round table
+  - Player customization
+    - hillbilly
+    - thor
+    - pirate
+    - knight
+    - santa
 - Stump Rouge-like
   - upgrades can be collected that can help/hurt players
-    - effects one player
+    - EFFECTS ONE PLAYER
       - Stronger Arm
         - Players can throw the hammer higher and swing the hammer harder
       - Thor Strike
@@ -34,8 +76,6 @@ To do
         - player can jump an additional time 
       - Bigger Jump
         - Player can jump higher per every jump
-      - Growing nail/anti magnet
-        - nail comes back out of the log slightly after every round
       - Double hit/swing/tap
         - Player gets an additional swing every round
           - additional swings have reduced power
@@ -43,7 +83,14 @@ To do
       - Increased Stamina
         - Unlocks after grabbing first additional swing
         - reduces the drop off from each additional swing
-    - effects all players
+      - Fresh Nail
+        - Nail removes all effects applied to it
+        - Does NOT reset nails progress
+      - New Nail
+        - old nail is removed and player gets a new nail WITH the effects the last nail had
+      - Luck
+        - slightly increases the effects granted from upgrades obtained AFTER luck has been grabbed
+    - EFFECTS ALL PLAYERS
       - High Gravity
         - decreases power from throwing hammer but increases power from hammer swing
       - Low Gravity
@@ -60,11 +107,7 @@ To do
         - more precise hit means more power in what you hit
       - Lighter Hammer
         - Hammer is lighter, easier to throw
-      - Fresh Stump
-        - removes all add-ons to the stump but keeps nails at current progress
-      - Fresh Hammer
-        - Hammer has all add-ons removed
-    - Temporary effects
+    - TEMPORARY EFFECTS
       - Jetpack
         - allows the player to rocket up or down until they run out of gas
       - lightning rod
@@ -75,7 +118,7 @@ To do
         - place on the head of a nail to make the next hit more EXPLOSIVE (careful you might lose a finger)
       - weighted bracelet
         - throwing the hammer and hitting the nail becomes harder for a few turns but once removed your strength shoots up!
-      - Per pressure shot
+      - Peer pressure shot
         - You choose one other player to take a spicy beverage with you causing both of you to be a bit woozy for the next few turns
       - Weak Sheild
         - You are protected from the next negative effect coming your way
@@ -86,4 +129,28 @@ To do
           - Protects from 1 negative effect (that has no positive tied to it) and gets turned into a weak shield after (thus giving you 2 protections)
       - Cement Boots
         - Jumping becomes really difficult for the next few turns
-      - 
+      - Spartan Rage
+        - Hard to control but gives a DEVISTATING blow on your next hit... if you can manage to
+      - Invisible Nail
+        - A nail of your choice will become invisible for 1 round, you can still hit it if you can find it
+      - Bonfire
+        - Stump catches on fire for a few turns making it harder to see any nail
+        - fire should cause any placed firecrackers to go off without having the nail sink lower
+        - fire should have a chance to remove termites from the log after each turn
+        - fire should have a chance to remove resin on the log after each turn
+      - Loose Hammer Head
+        - The head of the hammer is loose and one good hit might cause it to fall off!
+          - Strong hits have a chance of breaking the hammer forcing you to get a new hammer
+          - New hammer will have none of the add-ons from the old one
+          - If the Hammer can survive a few turns without breaking, the hammer head will be fixed
+      - Nail spring
+        - helps conserve momentum on secondary swings until nail sinks too low
+        - can't put on a nail that is already sunk too low
+      - Miracle Grow
+        - nail comes back out of the log slightly after a few turns for a few turns
+      - Quicksand log
+        - nails will sink slightly after each turn for a few turns
+      - Fortifying Amber
+        - amber encases your nail protecting it from the next negative effect
+      - Frozen Nail
+        - nail is frozen in place protecting it from the next 2 hits
