@@ -154,3 +154,15 @@ To do
         - amber encases your nail protecting it from the next negative effect
       - Frozen Nail
         - nail is frozen in place protecting it from the next 2 hits
+Order of features to add
+- picking up/dropping the hammer
+- Throwing/catching QTE
+- swinging the hammer
+- lobby ready up
+  - sets the nails into the log for the game
+- all basic nail hitting interactions
+  - nail hit and sinks
+  - nail hit and sparks
+  - nail hit and bends
+- upgrade system
+- polishing
