@@ -157,7 +157,9 @@ To do
 
 Order of features to add
 - picking up/dropping the hammer
+  - other general collision stuff
 - Throwing/catching QTE
+- UI
 - swinging the hammer
 - lobby ready up
   - sets the nails into the log for the game
