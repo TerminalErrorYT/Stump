@@ -154,6 +154,7 @@ To do
         - amber encases your nail protecting it from the next negative effect
       - Frozen Nail
         - nail is frozen in place protecting it from the next 2 hits
+
 Order of features to add
 - picking up/dropping the hammer
 - Throwing/catching QTE
