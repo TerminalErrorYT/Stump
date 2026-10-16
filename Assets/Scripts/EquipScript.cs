@@ -13,7 +13,6 @@ public class EquipScript : MonoBehaviour
     private ItemFloat itemFloatScript;
     public float throwForwardForce = 5f;
     public float throwUpwardForce = 2f;
-    public float hammerGravityMultiplier = 9.81f;
 
     // State tracking variable to prevent equipping and unequipping in the same frame
     private bool isEquipped = false;
@@ -21,21 +20,25 @@ public class EquipScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Hammer.GetComponent<Rigidbody>().isKinematic = true;
+	isEquipped = false;
+        Hammer.GetComponent<Rigidbody>().isKinematic = false;
         itemFloatScript = Hammer.GetComponent<ItemFloat>();
+	itemFloatScript.isHeld = false;
+        itemFloatScript.ResetLandingState();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.fKey.wasPressedThisFrame)
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            // If we are holding it, press F to throw it
+            // If we are holding it, press E to throw it
             if (isEquipped)
             {
-                UnequipObject();
+                DropObject();
             }
-            // If hands are empty, press F to try and pick it up
+            // If hands are empty, press E to try and pick it up
             else
             {
                 Shoot();
@@ -58,7 +61,7 @@ public class EquipScript : MonoBehaviour
         }
     }
 
-    void UnequipObject()
+    void DropObject()
     {
         isEquipped = false; // Update state
 
@@ -81,9 +84,6 @@ public class EquipScript : MonoBehaviour
         Vector3 tossDirection = (Camera.transform.forward * throwForwardForce) + (Vector3.up * throwUpwardForce);
         hammerRb.AddForce(tossDirection, ForceMode.Impulse);
 	hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse);
-
-	Vector3 extraGravityForce = Vector3.down * hammerGravityMultiplier;
-        hammerRb.AddForce(extraGravityForce, ForceMode.VelocityChange);
     }
 
     void EquipObject()
@@ -99,7 +99,7 @@ public class EquipScript : MonoBehaviour
 
         Hammer.GetComponent<Rigidbody>().isKinematic = true;
         Hammer.transform.position = PlayerTransform.transform.position;
-        Quaternion rotationOffset = Quaternion.Euler(-110f, -10f, 0f); 
+        Quaternion rotationOffset = Quaternion.Euler(-110f, -10f, 20f); 
         Hammer.transform.rotation = PlayerTransform.transform.rotation * rotationOffset;
         Hammer.transform.SetParent(PlayerTransform);
     }
