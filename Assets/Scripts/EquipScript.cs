@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class EquipScript : MonoBehaviour
 {
@@ -14,18 +15,33 @@ public class EquipScript : MonoBehaviour
     public float throwForwardForce = 5f;
     public float throwUpwardForce = 2f;
 
+	[Header("References")]
+  	public Transform cam;
+  	public Transform attackPoint;
+  	public GameObject objectToThrow;
+
+  	[Header("Settings")]
+  	public int totalThrows;
+  	public float throwCooldown;
+
+  	[Header("Throwing")]
+  	public float throwForce;
+  	public float throwUpwardForce;
+
+  	bool readyToThrow;
+
     // State tracking variable to prevent equipping and unequipping in the same frame
     private bool isEquipped = false;
 
     // Start is called before the first frame update
     void Start()
     {
-	isEquipped = false;
+		isEquipped = false; //might be able to remove
         Hammer.GetComponent<Rigidbody>().isKinematic = false;
         itemFloatScript = Hammer.GetComponent<ItemFloat>();
-	itemFloatScript.isHeld = false;
+		itemFloatScript.isHeld = false;
         itemFloatScript.ResetLandingState();
-
+		readyToThrow = false;
     }
 
     // Update is called once per frame
@@ -41,12 +57,23 @@ public class EquipScript : MonoBehaviour
             // If hands are empty, press E to try and pick it up
             else
             {
-                Shoot();
+                Shoot(); //might be able to skip shoot and go straight to equip 
+				readyToThrow = true;
             }
         }
+
+		if (Keyboard.current.eKey.wasPressedThisFrame)
+	    {
+	      readyToThrow = true;
+	    }
+	    
+	    if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+	    {
+	      Throw();
+	    }
     }
 
-    void Shoot()
+    void Shoot() //might be able to remove
     {
         RaycastHit hit;
         if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out hit, range))
@@ -103,4 +130,29 @@ public class EquipScript : MonoBehaviour
         Hammer.transform.rotation = PlayerTransform.transform.rotation * rotationOffset;
         Hammer.transform.SetParent(PlayerTransform);
     }
+
+	private void Throw() //update so it throws up not forawrd, hammer shouldn't really move around, should just go up and down for throw
+  	{
+    	readyToThrow = false;
+
+    	GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
+    	Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
+
+    	Vector3 forceDirection = cam.transform.forward; //change this to upward
+    	RaycastHit hit; //this part might not be neccesary but would be good to keep for funzies
+    	if(Physics.Raycast(cam.position, cam.forward, out hit, 500f)) //basically the throw happens from the "hand" so this adjusts it so that it hits the center of the screen from any distance
+    	{
+      	forceDirection = (hit.point -attackPoint.position).normalized;
+    	}
+    
+    	Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce; //might be able to just change it so that it takes upward force and thats it
+    	projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
+    	totalThrows--;
+    	Invoke(nameof(ResetThrow), throwCooldown);
+  	}
+
+  	private void ResetThrow() //update so this is catch instead reset throw, shouldn't let the user throw a second time until hammer is caught again
+  	{ //realistically there wouldn't be a second throw ever but hey, you never know
+    	readyToThrow = true;
+  	}
 }
