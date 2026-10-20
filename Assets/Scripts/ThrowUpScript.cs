@@ -23,11 +23,16 @@ public class ThrowUpScript : MonoBehaviour
 
   private void Start()
   {
-    readyToThrow = true;
+    readyToThrow = false;
   }
 
   private void Update()
   {
+    if()
+    {
+      readyToThrow = true;
+    }
+    
     if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
     {
       Throw();
