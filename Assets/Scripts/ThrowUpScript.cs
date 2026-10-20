@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
-public class ThrowUpScript : MonoBehavior
+public class ThrowUpScript : MonoBehaviour
 {
   [Header("References")]
   public Transform cam;
-  public Transform attackpoint;
+  public Transform attackPoint;
   public GameObject objectToThrow;
 
   [Header("Settings")]
@@ -15,7 +16,6 @@ public class ThrowUpScript : MonoBehavior
   public float throwCooldown;
 
   [Header("Throwing")]
-  public KeyCode throwKey = KeyCode.Mouse0;
   public float throwForce;
   public float throwUpwardForce;
 
@@ -28,7 +28,7 @@ public class ThrowUpScript : MonoBehavior
 
   private void Update()
   {
-    if(Input.GetKeyDown(throwKey) && readyToThrow && totalThrows > 0)
+    if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
     {
       Throw();
     }
@@ -45,7 +45,7 @@ public class ThrowUpScript : MonoBehavior
     RaycastHit hit; //this part might not be neccesary but would be good to keep for funzies
     if(Physics.Raycast(cam.position, cam.forward, out hit, 500f)) //basically the throw happens from the "hand" so this adjusts it so that it hits the center of the screen from any distance
     {
-      forceDirection = (hit.point -attackPoint.position).normalize
+      forceDirection = (hit.point -attackPoint.position).normalized;
     }
     
     Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce; //might be able to just change it so that it takes upward force and thats it

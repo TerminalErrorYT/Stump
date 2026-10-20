@@ -64,13 +64,13 @@ public class ItemFloat : MonoBehaviour
             yield return new WaitForFixedUpdate(); // Check during physics frames
         }
 
-        // --- STEP 1: The hammer has physically come to a stop. Wait the requested delay time. ---
+        // The hammer has physically come to a stop. Wait the requested delay time.
         yield return new WaitForSeconds(floatDelay);
 
         // Double check the player didn't pick it up during the delay window
         if (!isHeld)
         {
-            // --- STEP 2: Transition into the magical hover state ---
+            // Transition into the magical hover state
             hasLanded = true;
             
             if (rb != null)
