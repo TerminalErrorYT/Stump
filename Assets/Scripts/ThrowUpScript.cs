@@ -28,7 +28,7 @@ public class ThrowUpScript : MonoBehaviour
 
   private void Update()
   {
-    if()
+    if (Keyboard.current.eKey.wasPressedThisFrame)
     {
       readyToThrow = true;
     }
