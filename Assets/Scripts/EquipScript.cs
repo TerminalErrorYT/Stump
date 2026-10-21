@@ -18,10 +18,10 @@ public class EquipScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-	isEquipped = false;
+		isEquipped = false;
         Hammer.GetComponent<Rigidbody>().isKinematic = false;
         itemFloatScript = Hammer.GetComponent<ItemFloat>();
-	itemFloatScript.isHeld = false;
+		itemFloatScript.isHeld = false;
         itemFloatScript.ResetLandingState();
 
     }
@@ -66,7 +66,7 @@ public class EquipScript : MonoBehaviour
         
         Vector3 tossDirection = (Camera.transform.forward * throwForwardForce) + (Vector3.up * throwUpwardForce);
         hammerRb.AddForce(tossDirection, ForceMode.Impulse);
-	hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse);
+		hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse);
     }
 
     void EquipObject()
@@ -76,7 +76,7 @@ public class EquipScript : MonoBehaviour
         if (itemFloatScript != null)
         {
             itemFloatScript.isHeld = true;
-	    itemFloatScript.ResetLandingState();
+	    	itemFloatScript.ResetLandingState();
             itemFloatScript.enabled = true; // Make sure it's active when held if needed
         }
 
