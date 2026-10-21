@@ -15,6 +15,8 @@ public class ThrowUpScript : MonoBehaviour
   	private ItemFloat itemFloatScript;
   	public EquipScript hammer;
 
+	public strengthModifier = 0;
+
   	private void Start()
   	{
     	readyToThrow = true;
@@ -37,11 +39,11 @@ public class ThrowUpScript : MonoBehaviour
     	}
   	}
 
-  	private void Throw() //update so it throws up not forawrd, hammer shouldn't really move around, should just go up and down for throw
+  	private void Throw()
   	{
     	readyToThrow = false;
     	hammer.isEquipped = false;
-    	float throwUpwardForce = 25f;
+    	float throwUpwardForce = 25f; //change this to change the height the hammer will be thrown
 
     	if (itemFloatScript != null)
     	{
@@ -59,9 +61,9 @@ public class ThrowUpScript : MonoBehaviour
     	hammerRb.linearVelocity = Vector3.zero; 
     	hammerRb.angularVelocity = Vector3.zero;
         
-    	Vector3 tossDirection = (Camera.transform.forward) + (Vector3.up * throwUpwardForce);
-    	hammerRb.AddForce(tossDirection, ForceMode.Impulse);
-    	hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse);
+    	Vector3 tossDirection = (Camera.transform.forward) + (Vector3.up * throwUpwardForce); //hammer throw direction
+    	hammerRb.AddForce(tossDirection, (ForceMode.Impulse + (ForceMode.Impulse * strengthModifier))); //hammer throw power
+    	hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse); //hammer spin
   	}
 
   	private void Catch()
@@ -72,7 +74,15 @@ public class ThrowUpScript : MonoBehaviour
     	// shouldn't be able to throw again until the user swings the hammer or the hammer hits the ground
     	readyToThrow = true;
   	}
-  	//create another class for when the hammer hits the ground and needs reset/ passed to the next player
-  	//create another class that will warn the player that they are getting close/leaving the area where the hammer is going to fall, maybe puts an indicator on the ground on where its going to fall
-  	//create another class or file that calculates the velocity of the hammer as it falls
+  	private void MissedCatch(){
+		//create another class for when the hammer hits the ground and needs reset/ passed to the next player
+		
+		readyToThrow = true;
+	}
+	
+	private void ProximityDetector(){
+		//create another class that will warn the player that they are getting close/leaving the area where the hammer is going to fall, maybe puts an indicator on the ground on where its going to fall
+
+	}
+	//create another class or file that calculates the velocity of the hammer as it falls
 }
