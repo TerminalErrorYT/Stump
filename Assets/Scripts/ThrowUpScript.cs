@@ -15,7 +15,7 @@ public class ThrowUpScript : MonoBehaviour
   	private ItemFloat itemFloatScript;
   	public EquipScript hammer;
 
-	public strengthModifier = 0;
+	public strengthModifier = 0; //strength modifier will add a fraction of the original force ontop of the original throw to allow it to be thrown even higher
 
   	private void Start()
   	{
