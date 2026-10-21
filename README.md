@@ -107,6 +107,10 @@ To do
         - more precise hit means more power in what you hit
       - Lighter Hammer
         - Hammer is lighter, easier to throw
+      - Permaban Hammer
+        - the hammer can skip a players turn if you hit them rather than a nail
+        - the hammer goes on a cooldown for a few turns before the effect is available again
+          - must make sure that the cooldown isn't a set amount so that the same player keeps getting skipped forever
     - TEMPORARY EFFECTS
       - Jetpack
         - allows the player to rocket up or down until they run out of gas
@@ -154,6 +158,9 @@ To do
         - amber encases your nail protecting it from the next negative effect
       - Frozen Nail
         - nail is frozen in place protecting it from the next 2 hits
+      - Ban Hammer
+        - if instead of hitting a nail you hit a player, that player has their turn skipped
+        - works once
 
 Order of features to add
 - picking up/dropping the hammer
