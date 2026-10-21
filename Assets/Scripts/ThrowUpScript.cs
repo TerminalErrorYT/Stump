@@ -73,4 +73,6 @@ public class ThrowUpScript : MonoBehaviour
     readyToThrow = true;
   }
   //create another class for when the hammer hits the ground and needs reset/ passed to the next player
+  //create another class that will warn the player that they are getting close/leaving the area where the hammer is going to fall, maybe puts an indicator on the ground on where its going to fall
+  //create another class or file that calculates the velocity of the hammer as it falls
 }
