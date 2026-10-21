@@ -8,8 +8,6 @@ public class EquipScript : MonoBehaviour
     public Transform PlayerTransform;
     public GameObject Hammer;
     public Camera Camera;
-    public float range = 2f;
-    public float open = 100f;
     private ItemFloat itemFloatScript;
     public float throwForwardForce = 5f;
     public float throwUpwardForce = 2f;
