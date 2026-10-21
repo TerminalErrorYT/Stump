@@ -5,62 +5,72 @@ using UnityEngine.InputSystem;
 using TMPro;
 
 public class ThrowUpScript : MonoBehaviour
-{
+{ 
   [Header("References")]
-  public Transform cam;
+  public Camera Camera;
   public Transform attackPoint;
-  public GameObject objectToThrow;
+  public GameObject Hammer;
 
-  [Header("Settings")]
-  public int totalThrows;
-  public float throwCooldown;
-
-  [Header("Throwing")]
-  public float throwForce;
-  public float throwUpwardForce;
-
-  bool readyToThrow;
+  bool readyToThrow; //looking to see when the player is holding, if holding before throw then true, if holding after catch, then false
+  private ItemFloat itemFloatScript;
+  public EquipScript hammer;
 
   private void Start()
   {
-    readyToThrow = false;
+    readyToThrow = true;
   }
 
   private void Update()
   {
-    if (Keyboard.current.eKey.wasPressedThisFrame)
+    hammer = GetComponent<EquipScript>();
+    if (hammer != null && hammer.isEquipped && readyToThrow)
     {
-      readyToThrow = true;
-    }
-    
-    if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-    {
-      Throw();
+	if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame && readyToThrow)
+	{
+	  Throw();
+	}
+    }else if (hammer != null && hammer.isEquipped == false){
+	if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+	{
+	  Catch();
+	}
     }
   }
 
   private void Throw() //update so it throws up not forawrd, hammer shouldn't really move around, should just go up and down for throw
   {
     readyToThrow = false;
+    hammer.isEquipped = false;
+    float throwUpwardForce = 25f;
 
-    GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
-    Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
-
-    Vector3 forceDirection = cam.transform.forward; //change this to upward
-    RaycastHit hit; //this part might not be neccesary but would be good to keep for funzies
-    if(Physics.Raycast(cam.position, cam.forward, out hit, 500f)) //basically the throw happens from the "hand" so this adjusts it so that it hits the center of the screen from any distance
+    if (itemFloatScript != null)
     {
-      forceDirection = (hit.point -attackPoint.position).normalized;
+      itemFloatScript.isHeld = false;
+      itemFloatScript.ResetLandingState();
     }
-    
-    Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce; //might be able to just change it so that it takes upward force and thats it
-    projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
-    totalThrows--;
-    Invoke(nameof(ResetThrow), throwCooldown);
+
+    Hammer.transform.SetParent(null);
+        
+    Rigidbody hammerRb = Hammer.GetComponent<Rigidbody>();
+    hammerRb.isKinematic = false;
+    hammerRb.useGravity = true;
+        
+    // Reset old speeds
+    hammerRb.linearVelocity = Vector3.zero; 
+    hammerRb.angularVelocity = Vector3.zero;
+        
+    Vector3 tossDirection = (Camera.transform.forward) + (Vector3.up * throwUpwardForce);
+    hammerRb.AddForce(tossDirection, ForceMode.Impulse);
+    hammerRb.AddTorque(Camera.transform.right * 1f, ForceMode.Impulse);
   }
 
-  private void ResetThrow() //update so this is catch instead reset throw, shouldn't let the user throw a second time until hammer is caught again
-  { //realistically there wouldn't be a second throw ever but hey, you never know
+  private void Catch()
+  {
+    // generate a sphere around the player for the range of catching the hammer
+    // closer to the center of the sphere the better the catch
+    // calcualte power of next hit and have it quickly lose power if user doesnt swing the hammer in time
+    // shouldn't be able to throw again until the user swings the hammer or the hammer hits the ground
     readyToThrow = true;
   }
+  //create another class for when the hammer hits the ground and needs reset/ passed to the next player
 }

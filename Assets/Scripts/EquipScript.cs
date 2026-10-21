@@ -15,7 +15,7 @@ public class EquipScript : MonoBehaviour
     public float throwUpwardForce = 2f;
 
     // State tracking variable to prevent equipping and unequipping in the same frame
-    private bool isEquipped = false;
+    public bool isEquipped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,21 +40,6 @@ public class EquipScript : MonoBehaviour
             }
             // If hands are empty, press E to try and pick it up
             else
-            {
-                Shoot();
-            }
-        }
-    }
-
-    void Shoot()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out hit, range))
-        {
-            Debug.Log(hit.transform.name);
-
-            Target target = hit.transform.GetComponent<Target>();
-            if (target != null)
             {
                 EquipObject();
             }
