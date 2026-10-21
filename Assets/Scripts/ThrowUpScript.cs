@@ -68,8 +68,12 @@ public class ThrowUpScript : MonoBehaviour
 
   	private void Catch()
   	{
-    	// generate a sphere around the player for the range of catching the hammer
-    	// closer to the center of the sphere the better the catch
+    	// generate one sphere and one box/cylinder around the player for the range of catching the hammer
+		// the sphere is the complete range the player can catch the hammer
+		// the box/cylinder is the "perfect" range that conserves all momentum from the hammer falling in the swing
+    	// closer to the player catches to the smaller sphere the better the catch
+		// both areas should follow the players hand area but not rotate with it
+		// might also think about putting a failed catch area behind the player since catching something behind you is impossible
     	// calcualte power of next hit and have it quickly lose power if user doesnt swing the hammer in time
     	// shouldn't be able to throw again until the user swings the hammer or the hammer hits the ground
     	readyToThrow = true;
