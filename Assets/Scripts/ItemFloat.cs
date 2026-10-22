@@ -78,7 +78,7 @@ public class ItemFloat : MonoBehaviour
                 rb.isKinematic = true; // Turn off physics entirely
             }
             
-            groundY = transform.position.y + 0.5f; // Set base height for hovering
+            groundY = transform.position.y + 0.75f; // Set base height for hovering
             transform.rotation = Quaternion.Euler(-45f, 0f, 45f); // Snap upright cleanly
         }
     }
