@@ -18,15 +18,17 @@ public class EquipScript : MonoBehaviour
     public bool isEquipped = false; // State tracking variable to prevent equipping and unequipping in the same frame
     public bool readyToThrow; //looking to see when the player is holding, if holding before throw then true, if holding after catch, then false
     public float strengthModifier = 0; //strength modifier will add a fraction of the original force ontop of the original throw to allow it to be thrown even higher
+    private bool isInCatchZone = false;
+    private bool isInPerfectZone = false;
 
     void Start() // Start is called before the first frame update
     {
-	isEquipped = false;
+	    isEquipped = false;
         Hammer.GetComponent<Rigidbody>().isKinematic = false;
         itemFloatScript = Hammer.GetComponent<ItemFloat>();
-	itemFloatScript.isHeld = false;
+	    itemFloatScript.isHeld = false;
         itemFloatScript.ResetLandingState();
-	readyToThrow = true;
+	    readyToThrow = true;
     }
 
     void Update() { // Update is called once per frame
@@ -39,14 +41,41 @@ public class EquipScript : MonoBehaviour
         }
 
 		if (isEquipped && readyToThrow) {
-	    	if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame && readyToThrow) {
+	    	if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) {
 	  			Throw();
 	    	}
-    	} else if (isEquipped == false) {
+    	} else if (!isEquipped) { //add a check for if the hammer has hit the ground
 	    	if(Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) {
 	  			Catch();
 	    	}
     	}
+    }
+
+    private void OnTriggerEnter(Collider hammer)
+    {
+        if (hammer.CompareTag("CatchZone"))
+        {
+            isInCatchZone = true;
+            Debug.Log("Is Catch = " + isInCatchZone);
+        }
+        else if (hammer.CompareTag("PerfectZone"))
+        {
+            isInPerfectZone = true;
+            Debug.Log("Is Perfect = " + isInPerfectZone);
+        }
+    }
+
+    private void OnTriggerExit(Collider hammer)
+    {
+        if (hammer.CompareTag("CatchZone")) {
+            isInCatchZone = false;
+            Debug.Log("Is Catch = " + isInCatchZone);
+        }
+        else if (hammer.CompareTag("PerfectZone"))
+        {
+            isInPerfectZone = false;
+            Debug.Log("Is Perfect = " + isInPerfectZone);
+        }
     }
 
     void DropObject() { //player drops the hammer on the ground
@@ -117,30 +146,33 @@ public class EquipScript : MonoBehaviour
     }
 
     private void Catch() { //player catches the item once it reaches their catch range
-	isEquipped = true; // Update state
+        if (isInCatchZone) {
+            isEquipped = true; // Update state
 
-        if (itemFloatScript != null) {
-            itemFloatScript.isHeld = true;
-	    	itemFloatScript.ResetLandingState();
-            itemFloatScript.enabled = true; // Make sure it's active when held if needed
+            if (itemFloatScript != null) {
+                itemFloatScript.isHeld = true;
+                itemFloatScript.ResetLandingState();
+                itemFloatScript.enabled = true; // Make sure it's active when held if needed
+            }
+
+            Hammer.GetComponent<Rigidbody>().isKinematic = true;
+            Hammer.transform.position = PlayerTransform.transform.position;
+            Quaternion rotationOffset = Quaternion.Euler(-110f, -10f, 20f);
+            Hammer.transform.rotation = PlayerTransform.transform.rotation * rotationOffset;
+            Hammer.transform.SetParent(PlayerTransform);
+
+            if (isInPerfectZone) {
+                //give 100% (and maybe a small bonus) for catching the hammer perfectly
+                Debug.Log("Perfect Catch!");
+            } else {
+                // calculate how far the hammer was from the perfect zone and give a percentage of the power for the swing
+                Debug.Log("Git Gud");
+            }
+
+            // swingHammer(); the function allowing the user to swing the hammer after catching and NOT throw a second time
+
+            readyToThrow = true; //should only activate after swinging the hammer
         }
-
-        Hammer.GetComponent<Rigidbody>().isKinematic = true;
-        Hammer.transform.position = PlayerTransform.transform.position;
-        Quaternion rotationOffset = Quaternion.Euler(-110f, -10f, 20f); 
-        Hammer.transform.rotation = PlayerTransform.transform.rotation * rotationOffset;
-        Hammer.transform.SetParent(PlayerTransform);
-
-    	// generate one sphere and one box/cylinder around the player for the range of catching the hammer
-		// the sphere is the complete range the player can catch the hammer
-		// the box/cylinder is the "perfect" range that conserves all momentum from the hammer falling in the swing
-    	// closer to the player catches to the smaller sphere the better the catch
-		// both areas should follow the players hand area but not rotate with it
-		// might also think about putting a failed catch area behind the player since catching something behind you is impossible
-    	// calcualte power of next hit and have it quickly lose power if user doesnt swing the hammer in time
-    	// shouldn't be able to throw again until the user swings the hammer or the hammer hits the ground
-		
-    	readyToThrow = true; //should only activate after swinging the hammer
     }
 
     private void MissedCatch() {
