@@ -15,6 +15,14 @@ public class EquipScript : MonoBehaviour
     public float throwUpwardForce = 2f;
     public float range = 2.5f;
 
+    [Header("Floating UI Prompt")]
+    public GameObject promptCanvas;
+    public Vector3 promptOffset = new Vector3(0, 0.5f, 0);
+    public float fadeSpeed = 5f;
+
+    private CanvasGroup promptCanvasGroup;
+    private float targetAlpha = 0f;
+
     public bool isEquipped = false; // State tracking variable to prevent equipping and unequipping in the same frame
     public bool readyToThrow; //looking to see when the player is holding, if holding before throw then true, if holding after catch, then false
     public float strengthModifier = 0; //strength modifier will add a fraction of the original force ontop of the original throw to allow it to be thrown even higher
@@ -29,6 +37,21 @@ public class EquipScript : MonoBehaviour
 	    itemFloatScript.isHeld = false;
         itemFloatScript.ResetLandingState();
 	    readyToThrow = true;
+
+        if (promptCanvas != null)
+        {
+            promptCanvasGroup = promptCanvas.GetComponent<CanvasGroup>();
+            if (promptCanvasGroup == null)
+            {
+                promptCanvasGroup = promptCanvas.AddComponent<CanvasGroup>();
+            }
+
+            promptCanvas.transform.SetParent(null);
+
+            promptCanvasGroup.alpha = 0f;
+            targetAlpha = 0f;
+            promptCanvas.SetActive(true);
+        }
     }
 
     void Update() { // Update is called once per frame
@@ -49,7 +72,53 @@ public class EquipScript : MonoBehaviour
 	  			Catch();
 	    	}
     	}
+
+        HandleFloatingPrompt();
     }
+
+    private void HandleFloatingPrompt()
+    {
+        if (promptCanvas == null || promptCanvasGroup == null) return;
+
+        bool showPrompt = false;
+
+        // Proximity check: Check if the player is physically close to the hammer
+        if (!isEquipped && PlayerTransform != null && Hammer != null)
+        {
+            float distanceToHammer = Vector3.Distance(PlayerTransform.position, Hammer.transform.position);
+
+            // If inside the proximity pickup range, show the prompt
+            if (distanceToHammer <= range)
+            {
+                showPrompt = true;
+
+                // Snap the prompt right above the hammer
+                promptCanvas.transform.position = Hammer.transform.position + promptOffset;
+
+                // Keep the prompt aligned with the camera screen so it stays flat and legible
+                promptCanvas.transform.rotation = Camera.transform.rotation;
+            }
+        }
+
+        // Set target opacity based on distance calculation
+        targetAlpha = showPrompt ? 1f : 0f;
+
+        // Smoothly transition alpha
+        promptCanvasGroup.alpha = Mathf.MoveTowards(promptCanvasGroup.alpha, targetAlpha, fadeSpeed * Time.deltaTime);
+
+        // Turn off interaction physics overhead when invisible
+        if (promptCanvasGroup.alpha <= 0.01f && targetAlpha == 0f)
+        {
+            promptCanvasGroup.blocksRaycasts = false;
+            promptCanvasGroup.interactable = false;
+        }
+        else
+        {
+            promptCanvasGroup.blocksRaycasts = true;
+            promptCanvasGroup.interactable = true;
+        }
+    }
+
 
     private void OnTriggerEnter(Collider hammer)
     {
