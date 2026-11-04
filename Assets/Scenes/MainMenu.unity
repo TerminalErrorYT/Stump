@@ -981,11 +981,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1276930501}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ShowSubMenu
-        m_Mode: 1
+        m_MethodName: ShowPlaySubMenu
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: SampleScene
@@ -1604,6 +1604,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
   hoverScaleMultiplier: 1.15
   animationSpeed: 8
+  subMenuPanel: {fileID: 0}
+  menuButtonsContainer: {fileID: 0}
+  slideDuration: 0.4
 --- !u!1 &1320015815
 GameObject:
   m_ObjectHideFlags: 0
