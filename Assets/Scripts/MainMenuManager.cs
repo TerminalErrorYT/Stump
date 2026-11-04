@@ -13,10 +13,10 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private float hoverScaleMultiplier = 1.15f;
     [SerializeField] private float animationSpeed = 8f;
 
-    [Header("Sub Menu Transition Layouts")]
-    [SerializeField] private RectTransform subMenuPanel;
-    [SerializeField] private Transform menuButtonsContainer;
-    [SerializeField] private float slideDuration = 0.4f;
+    // [Header("Sub Menu Transition Layouts")]
+    // [SerializeField] private RectTransform subMenuPanel;
+    // [SerializeField] private Transform menuButtonsContainer;
+    // [SerializeField] private float slideDuration = 0.4f;
 
     private GameObject currentHoveredButton;
     private Vector3 cachedOriginalScale = Vector3.one;
@@ -108,56 +108,12 @@ public class MainMenuManager : MonoBehaviour
         return hammerTransform != null ? hammerTransform.gameObject : null;
     }
 
-    public void ShowPlaySubMenu(Button clickedButton)
+    public void ShowPlaySubMenu()
     {
-        if (clickedButton == null || isMenuTransitionLocked) return;
-
-        // 1. Find the sliding SubMenu panel nested inside this button's hierarchy
-        RectTransform foundSubMenu = FindSubMenuChild(clickedButton.gameObject);
-        if (foundSubMenu == null)
-        {
-            Debug.LogError($"Could not find a 'SubMenu' child object inside {clickedButton.name}!");
-            return;
-        }
-
-        isMenuTransitionLocked = true; // Freeze main hover systems
-        ResetPreviousButtonScale();     // Clean up any mid-lerp hovering scales
-
-        // 2. Turn off the spinning hammer on the clicked button 
-        GameObject clickedHammer = FindHammerChild(clickedButton.gameObject);
-        if (clickedHammer != null) clickedHammer.SetActive(false);
-
-        // 3. Clear out all other sibling main menu choices
-        // menuButtonsContainer can just be clickedButton.transform.parent
-        Transform buttonParentContainer = clickedButton.transform.parent;
-        foreach (Transform child in buttonParentContainer)
-        {
-            if (child.gameObject != clickedButton.gameObject)
-            {
-                child.gameObject.SetActive(false);
-            }
-        }
-
-        // 4. Force the selected option to the top layer slot if using a Layout Group
-        clickedButton.transform.SetAsFirstSibling();
-
-        // 5. Slide the nested sub-menu UI smoothly onto the canvas
-        StartCoroutine(SlideMenuRoutine(foundSubMenu, Vector2.zero, slideDuration));
-    }
-
-    private RectTransform FindSubMenuChild(GameObject buttonObj)
-    {
-        if (buttonObj == null) return null;
-
-        // Searches for a child named "SubMenu" (Adjust this string to match your exact hierarchy name!)
-        Transform subMenuTransform = buttonObj.transform.Find("SubMenu");
-
-        if (subMenuTransform != null)
-        {
-            return subMenuTransform.GetComponent<RectTransform>();
-        }
-
-        return null;
+        //remove other menu items other than the one clicked
+        //move the one clicked to the top if not already there
+        //have the sub options show up (on nails rather than hammers)
+        Canvas subMenu = detectedButton.GetComponentInParent<Canvas>();
     }
 
     public void LoadScene(string sceneName)
