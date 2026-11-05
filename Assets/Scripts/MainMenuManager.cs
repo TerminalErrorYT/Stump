@@ -1,6 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,6 +18,9 @@ public class MainMenuManager : MonoBehaviour
     // [SerializeField] private RectTransform subMenuPanel;
     // [SerializeField] private Transform menuButtonsContainer;
     // [SerializeField] private float slideDuration = 0.4f;
+    public float slideDuration = 0.5f;
+    public Vector2 startPosition = new Vector2(2000, 0);
+    public Vector2 targetPosition = Vector2.zero;
 
     private GameObject currentHoveredButton;
     private Vector3 cachedOriginalScale = Vector3.one;
@@ -107,13 +111,48 @@ public class MainMenuManager : MonoBehaviour
 
         return hammerTransform != null ? hammerTransform.gameObject : null;
     }
-
+    //remove other menu items other than the one clicked
+    //move the one clicked to the top if not already there
+    //have the sub options show up (on nails rather than hammers)
     public void ShowPlaySubMenu()
     {
-        //remove other menu items other than the one clicked
-        //move the one clicked to the top if not already there
-        //have the sub options show up (on nails rather than hammers)
+        // For security, look for a GameObject with the script or passed reference 
+        // Assuming 'detectedButton' is already defined in your class
         Canvas subMenu = detectedButton.GetComponentInParent<Canvas>();
+
+        if (subMenu != null)
+        {
+            RectTransform rectTransform = subMenu.GetComponent<RectTransform>();
+
+            // Ensure the canvas is active before moving it
+            subMenu.gameObject.SetActive(true);
+
+            // Start the smooth slide movement
+            StartCoroutine(SlideIn(rectTransform));
+        }
+    }
+
+    private IEnumerator SlideIn(RectTransform rectToMove)
+    {
+        float elapsedTime = 0;
+
+        // Set initial starting position off-screen
+        rectToMove.anchoredPosition = startPosition;
+
+        while (elapsedTime < slideDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / slideDuration;
+
+            // SmoothStep creates an "ease-in-ease-out" effect instead of a rigid linear movement
+            t = Mathf.SmoothStep(0, 1, t);
+
+            rectToMove.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        // Snap to exact target position at the end
+        rectToMove.anchoredPosition = targetPosition;
     }
 
     public void LoadScene(string sceneName)
