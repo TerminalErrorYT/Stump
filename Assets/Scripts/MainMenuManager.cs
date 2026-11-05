@@ -14,15 +14,12 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private float hoverScaleMultiplier = 1.15f;
     [SerializeField] private float animationSpeed = 8f;
 
-    // [Header("Sub Menu Transition Layouts")]
-    // [SerializeField] private RectTransform subMenuPanel;
-    // [SerializeField] private Transform menuButtonsContainer;
-    // [SerializeField] private float slideDuration = 0.4f;
-    public float slideDuration = 0.5f;
-    public Vector2 startPosition = new Vector2(2000, 0);
-    public Vector2 targetPosition = Vector2.zero;
+    public float slideDuration = .75f;
+    public Vector2 startPosition = new Vector2(1000, -135);
+    public Vector2 targetPosition = new Vector2(400, -135);
 
     private GameObject currentHoveredButton;
+    private GameObject buttonClicked;
     private Vector3 cachedOriginalScale = Vector3.one;
     private GameObject currentHammerObj; // Safely tracks the current hammer
     GameObject overObject;
@@ -38,13 +35,19 @@ public class MainMenuManager : MonoBehaviour
 
         if (detectedButton != currentHoveredButton)
         {
-            ResetPreviousButtonScale();
+            if (currentHoveredButton != null && currentHoveredButton != buttonClicked)
+            {
+                currentHoveredButton.transform.localScale = cachedOriginalScale;
+            }
 
             currentHoveredButton = detectedButton;
 
             if (currentHoveredButton != null)
             {
-                cachedOriginalScale = currentHoveredButton.transform.localScale;
+                if (currentHoveredButton != buttonClicked)
+                {
+                    cachedOriginalScale = currentHoveredButton.transform.localScale;
+                }
                 currentHammerObj = FindHammerChild(currentHoveredButton);
             }
             else
@@ -72,6 +75,16 @@ public class MainMenuManager : MonoBehaviour
                 Time.deltaTime * animationSpeed
             );
         }
+
+        if (buttonClicked != null)
+    {
+        Vector3 targetScale = cachedOriginalScale * hoverScaleMultiplier;
+        buttonClicked.transform.localScale = Vector3.Lerp(
+            buttonClicked.transform.localScale,
+            targetScale,
+            Time.deltaTime * animationSpeed
+        );
+    }
     }
 
     private void ResetPreviousButtonScale()
@@ -111,48 +124,27 @@ public class MainMenuManager : MonoBehaviour
 
         return hammerTransform != null ? hammerTransform.gameObject : null;
     }
-    //remove other menu items other than the one clicked
-    //move the one clicked to the top if not already there
-    //have the sub options show up (on nails rather than hammers)
-    public void ShowPlaySubMenu()
+
+    public void ShowPlaySubMenu(RectTransform subMenuRect)
     {
-        // For security, look for a GameObject with the script or passed reference 
-        // Assuming 'detectedButton' is already defined in your class
-        Canvas subMenu = detectedButton.GetComponentInParent<Canvas>();
-
-        if (subMenu != null)
+        //remove other menu items other than the one clicked
+        //move the one clicked to the top if not already there
+        if (currentHoveredButton != null)
         {
-            RectTransform rectTransform = subMenu.GetComponent<RectTransform>();
-
-            // Ensure the canvas is active before moving it
-            subMenu.gameObject.SetActive(true);
-
-            // Start the smooth slide movement
-            StartCoroutine(SlideIn(rectTransform));
+            buttonClicked = currentHoveredButton;
         }
-    }
-
-    private IEnumerator SlideIn(RectTransform rectToMove)
-    {
-        float elapsedTime = 0;
-
-        // Set initial starting position off-screen
-        rectToMove.anchoredPosition = startPosition;
-
-        while (elapsedTime < slideDuration)
+        else if (detectedButton != null)
         {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / slideDuration;
-
-            // SmoothStep creates an "ease-in-ease-out" effect instead of a rigid linear movement
-            t = Mathf.SmoothStep(0, 1, t);
-
-            rectToMove.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
-            yield return null;
+            buttonClicked = detectedButton;
         }
 
-        // Snap to exact target position at the end
-        rectToMove.anchoredPosition = targetPosition;
+        if (subMenuRect != null)
+        {
+            subMenuRect.gameObject.SetActive(true);
+            subMenuRect.anchoredPosition = startPosition;
+            subMenuRect.DOAnchorPos(targetPosition, slideDuration)
+                .SetEase(Ease.OutQuad);
+        }
     }
 
     public void LoadScene(string sceneName)
