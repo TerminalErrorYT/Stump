@@ -13,10 +13,11 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scale Settings")]
     [SerializeField] private float hoverScaleMultiplier = 1.15f;
     [SerializeField] private float animationSpeed = 8f;
+    [SerializeField] private RectTransform mainMenuPanel;
 
     public float slideDuration = .75f;
-    public Vector2 startPosition = new Vector2(1000, -100);
-    public Vector2 targetPosition = new Vector2(400, -100);
+    public Vector2 startPosition = new Vector2(1000, 50);
+    public Vector2 targetPosition = new Vector2(750, 50);
 
     private GameObject currentHoveredButton;
     private GameObject buttonClicked;
@@ -117,17 +118,9 @@ public class MainMenuManager : MonoBehaviour
         return hammerTransform != null ? hammerTransform.gameObject : null;
     }
 
-    public void ShowPlaySubMenu(RectTransform subMenuRect)
+    //consider condensing these next few functions so that 1 function grabs the panel the button is on and grabs the opposite panel and swaps positions
+    public void ShowSubMenu(RectTransform subMenuRect)
     {
-        if (currentHoveredButton != null)
-        {
-            buttonClicked = currentHoveredButton;
-        }
-        else if (detectedButton != null)
-        {
-            buttonClicked = detectedButton;
-        }
-
         if (subMenuRect != null)
         {
             subMenuRect.gameObject.SetActive(true);
@@ -135,6 +128,54 @@ public class MainMenuManager : MonoBehaviour
             subMenuRect.DOAnchorPos(targetPosition, slideDuration)
                 .SetEase(Ease.OutQuad);
         }
+        HideMainMenu();
+    }
+
+    public void HideMainMenu()
+    {
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.DOAnchorPos(startPosition, slideDuration)
+            .SetEase(Ease.InQuad)
+            .OnComplete(() =>
+            {
+                mainMenuPanel.gameObject.SetActive(false);
+            });
+        }
+    }
+
+    public void ShowMainMenu()
+    {
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.gameObject.SetActive(true);
+            mainMenuPanel.DOAnchorPos(targetPosition, slideDuration)
+            .SetEase(Ease.OutQuad);
+        }
+    }
+
+    public void HideSubMenu(RectTransform subMenuRect)
+    {
+        if (subMenuRect != null)
+        {
+            subMenuRect.DOAnchorPos(startPosition, slideDuration)
+            .SetEase(Ease.InQuad)
+            .OnComplete(() =>
+            {
+                subMenuRect.gameObject.SetActive(false);
+            });
+        }
+        ShowMainMenu();
+    }
+
+    public void MultiplayerButton()
+    {
+        // move camera to above log
+            // position: -558.9, 493.8, 364
+            // rotation: 76.9, -1.01, 6.5
+        // spin log with nail
+        // remove nail on spin
+        // possibly swap scenes with a crossfade or something
     }
 
     public void LoadScene(string sceneName)

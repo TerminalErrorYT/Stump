@@ -553,6 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 864176842}
   - component: {fileID: 864176843}
+  - component: {fileID: 864176844}
   m_Layer: 9
   m_Name: CatchZone
   m_TagString: CatchZone
@@ -596,6 +597,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0.38, z: 0.85}
+--- !u!114 &864176844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864176841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82fb6c3b7bb70a4aa0a3ec9a6467c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatchZoneTrigger
+  equipScript: {fileID: 1268326664}
+  isPerfectZone: 0
 --- !u!1 &926513600
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,6 +789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1142128006}
   - component: {fileID: 1142128007}
+  - component: {fileID: 1142128008}
   m_Layer: 9
   m_Name: PerfectZone
   m_TagString: PerfectZone
@@ -817,6 +833,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 0.5, z: 3.2709122}
   m_Center: {x: 0, y: 0.38, z: 1.2160063}
+--- !u!114 &1142128008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142128005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82fb6c3b7bb70a4aa0a3ec9a6467c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatchZoneTrigger
+  equipScript: {fileID: 1268326664}
+  isPerfectZone: 1
 --- !u!1 &1268326659
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,8 +965,10 @@ MonoBehaviour:
   throwForwardForce: 5
   throwUpwardForce: 2
   range: 2
+  pickupAimRadius: 0.5
   promptCanvas: {fileID: 2017431043}
   promptOffset: {x: 0, y: 0.5, z: 0}
+  fadeSpeed: 5
   isEquipped: 0
   readyToThrow: 0
   strengthModifier: 0

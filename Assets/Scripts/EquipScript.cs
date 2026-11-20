@@ -14,6 +14,7 @@ public class EquipScript : MonoBehaviour
     public float throwForwardForce = 5f;
     public float throwUpwardForce = 2f;
     public float range = 2.5f;
+    public float pickupAimRadius = 0.5f;
 
     [Header("Floating UI Prompt")]
     public GameObject promptCanvas;
@@ -120,31 +121,16 @@ public class EquipScript : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider hammer)
+    public void SetCatchZone(bool state)
     {
-        if (hammer.CompareTag("CatchZone"))
-        {
-            isInCatchZone = true;
-            Debug.Log("Is Catch = " + isInCatchZone);
-        }
-        else if (hammer.CompareTag("PerfectZone"))
-        {
-            isInPerfectZone = true;
-            Debug.Log("Is Perfect = " + isInPerfectZone);
-        }
+        if (isEquipped && state) return; // Don't trigger while holding
+        isInCatchZone = state;
     }
 
-    private void OnTriggerExit(Collider hammer)
+    public void SetPerfectZone(bool state)
     {
-        if (hammer.CompareTag("CatchZone")) {
-            isInCatchZone = false;
-            Debug.Log("Is Catch = " + isInCatchZone);
-        }
-        else if (hammer.CompareTag("PerfectZone"))
-        {
-            isInPerfectZone = false;
-            Debug.Log("Is Perfect = " + isInPerfectZone);
-        }
+        if (isEquipped && state) return; // Don't trigger while holding
+        isInPerfectZone = state;
     }
 
     void DropObject() { //player drops the hammer on the ground
@@ -172,7 +158,7 @@ public class EquipScript : MonoBehaviour
 
     void EquipObject() { //player can grab the item from the ground
 		RaycastHit hit;
-		if (Physics.Raycast(Camera.transform.position, Camera.transform.forward, out hit, range)) {
+		if (Physics.SphereCast(Camera.transform.position, pickupAimRadius, Camera.transform.forward, out hit, range)) {
             isEquipped = true; // Update state
 
             if (itemFloatScript != null) {
