@@ -15,8 +15,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private float animationSpeed = 8f;
 
     public float slideDuration = .75f;
-    public Vector2 startPosition = new Vector2(1000, -135);
-    public Vector2 targetPosition = new Vector2(400, -135);
+    public Vector2 startPosition = new Vector2(1000, -100);
+    public Vector2 targetPosition = new Vector2(400, -100);
 
     private GameObject currentHoveredButton;
     private GameObject buttonClicked;
@@ -87,14 +87,6 @@ public class MainMenuManager : MonoBehaviour
     }
     }
 
-    private void ResetPreviousButtonScale()
-    {
-        if (currentHoveredButton != null)
-        {
-            currentHoveredButton.transform.localScale = cachedOriginalScale;
-        }
-    }
-
     private GameObject GetHoveredUIObject()
     {
         if (EventSystem.current == null || Mouse.current == null) return null;
@@ -127,8 +119,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void ShowPlaySubMenu(RectTransform subMenuRect)
     {
-        //remove other menu items other than the one clicked
-        //move the one clicked to the top if not already there
         if (currentHoveredButton != null)
         {
             buttonClicked = currentHoveredButton;
