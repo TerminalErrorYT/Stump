@@ -6,7 +6,7 @@ public class MultiplayerButtonPress : MonoBehaviour
 {
     Vector3 moveToPosition; // This is where the camera will move after the start
     Quaternion rotateCamera;
-    float speed = 2f; // this is the speed at which the camera moves
+    float speed = 8f; // this is the speed at which the camera moves
     bool started = false; // stops the movement until we want it
 
     void Start()
@@ -28,8 +28,8 @@ public class MultiplayerButtonPress : MonoBehaviour
         if (!started)
             return;
 
-        transform.position = Vector3.Lerp(transform.position, moveToPosition, speed);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotateCamera ,speed);
+        transform.position = Vector3.Lerp(transform.position, moveToPosition, Time.deltaTime * speed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotateCamera , Time.deltaTime * speed);
     }
 
     public void StartCameraMove()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static ChargeThrow;
 
 public class EquipScript : MonoBehaviour
 {
@@ -176,6 +177,8 @@ public class EquipScript : MonoBehaviour
     }
 
     private void Throw() { //player throws the hammer up in the air to be caught
+        ChargeThrow qte = new ChargeThrow();
+        qte.StartQTE();
     	readyToThrow = false;
     	isEquipped = false;
     	float throwUpwardForce = 25f; //change this to change the height the hammer will be thrown
